@@ -9,25 +9,31 @@
 /* Begin PBXBuildFile section */
 		BDDCA4D527A8E67000A8B4CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4D427A8E66F00A8B4CA /* AppDelegate.swift */; };
 		BDDCA4D727A8E67000A8B4CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4D627A8E67000A8B4CA /* SceneDelegate.swift */; };
-		BDDCA4D927A8E67000A8B4CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4D827A8E67000A8B4CA /* ViewController.swift */; };
+		BDDCA4D927A8E67000A8B4CA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4D827A8E67000A8B4CA /* HomeViewController.swift */; };
 		BDDCA4DC27A8E67000A8B4CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDDCA4DA27A8E67000A8B4CA /* Main.storyboard */; };
 		BDDCA4DE27A8E67300A8B4CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDDCA4DD27A8E67300A8B4CA /* Assets.xcassets */; };
 		BDDCA4E127A8E67300A8B4CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDDCA4DF27A8E67300A8B4CA /* LaunchScreen.storyboard */; };
-		BDDCA4ED27A91AFC00A8B4CA /* WeatherDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4EC27A91AFC00A8B4CA /* WeatherDetails.swift */; };
 		BDDCA4EF27A93E5300A8B4CA /* LocationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCA4EE27A93E5300A8B4CA /* LocationCollectionViewCell.swift */; };
+		BDEC313E27AA469F00A447E6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC313D27AA469F00A447E6 /* HomeViewModel.swift */; };
+		BDEC314027AA4AE100A447E6 /* HomeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC313F27AA4AE100A447E6 /* HomeViewConstants.swift */; };
+		BDEC314227AA549800A447E6 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC314127AA549800A447E6 /* Weather.swift */; };
+		BDEC314527AA571600A447E6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC314427AA571600A447E6 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BDDCA4D127A8E66F00A8B4CA /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDDCA4D427A8E66F00A8B4CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDDCA4D627A8E67000A8B4CA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BDDCA4D827A8E67000A8B4CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BDDCA4D827A8E67000A8B4CA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BDDCA4DB27A8E67000A8B4CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BDDCA4DD27A8E67300A8B4CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDDCA4E027A8E67300A8B4CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BDDCA4E227A8E67300A8B4CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BDDCA4EC27A91AFC00A8B4CA /* WeatherDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetails.swift; sourceTree = "<group>"; };
 		BDDCA4EE27A93E5300A8B4CA /* LocationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCollectionViewCell.swift; sourceTree = "<group>"; };
+		BDEC313D27AA469F00A447E6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		BDEC313F27AA4AE100A447E6 /* HomeViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewConstants.swift; sourceTree = "<group>"; };
+		BDEC314127AA549800A447E6 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		BDEC314427AA571600A447E6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +66,76 @@
 		BDDCA4D327A8E66F00A8B4CA /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				BDEC314327AA563900A447E6 /* NetworkManager */,
 				BDDCA4D427A8E66F00A8B4CA /* AppDelegate.swift */,
 				BDDCA4D627A8E67000A8B4CA /* SceneDelegate.swift */,
-				BDDCA4D827A8E67000A8B4CA /* ViewController.swift */,
 				BDDCA4DA27A8E67000A8B4CA /* Main.storyboard */,
 				BDDCA4DD27A8E67300A8B4CA /* Assets.xcassets */,
 				BDDCA4DF27A8E67300A8B4CA /* LaunchScreen.storyboard */,
 				BDDCA4E227A8E67300A8B4CA /* Info.plist */,
-				BDDCA4EC27A91AFC00A8B4CA /* WeatherDetails.swift */,
-				BDDCA4EE27A93E5300A8B4CA /* LocationCollectionViewCell.swift */,
+				BDEC313B27AA3D1400A447E6 /* Utilities */,
+				BDEC313927AA3C5500A447E6 /* Models */,
+				BDEC313727AA3C1F00A447E6 /* ViewControllers */,
+				BDEC313827AA3C3C00A447E6 /* ViewModels */,
+				BDEC313A27AA3C6100A447E6 /* CollectionViewCells */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		BDEC313727AA3C1F00A447E6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BDDCA4D827A8E67000A8B4CA /* HomeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		BDEC313827AA3C3C00A447E6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC313D27AA469F00A447E6 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BDEC313927AA3C5500A447E6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC314127AA549800A447E6 /* Weather.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BDEC313A27AA3C6100A447E6 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				BDDCA4EE27A93E5300A8B4CA /* LocationCollectionViewCell.swift */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		BDEC313B27AA3D1400A447E6 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC313C27AA3D3900A447E6 /* Constants */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		BDEC313C27AA3D3900A447E6 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC313F27AA4AE100A447E6 /* HomeViewConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		BDEC314327AA563900A447E6 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC314427AA571600A447E6 /* NetworkManager.swift */,
+			);
+			path = NetworkManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,10 +209,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDDCA4D927A8E67000A8B4CA /* ViewController.swift in Sources */,
+				BDEC314527AA571600A447E6 /* NetworkManager.swift in Sources */,
+				BDEC314227AA549800A447E6 /* Weather.swift in Sources */,
+				BDDCA4D927A8E67000A8B4CA /* HomeViewController.swift in Sources */,
+				BDEC314027AA4AE100A447E6 /* HomeViewConstants.swift in Sources */,
+				BDEC313E27AA469F00A447E6 /* HomeViewModel.swift in Sources */,
 				BDDCA4D527A8E67000A8B4CA /* AppDelegate.swift in Sources */,
 				BDDCA4EF27A93E5300A8B4CA /* LocationCollectionViewCell.swift in Sources */,
-				BDDCA4ED27A91AFC00A8B4CA /* WeatherDetails.swift in Sources */,
 				BDDCA4D727A8E67000A8B4CA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
