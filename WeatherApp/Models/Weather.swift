@@ -7,29 +7,36 @@
 
 import Foundation
 
-struct weatherResults: Codable {
-    let weather: [weatherDetails]
-    let main: mainDetails
+struct WeatherResults: Codable {
+    let coord: CoordDetails
+    let weather: [WeatherDetails]
+    let main: MainDetails
     let visibility: Int
-    let wind: windDetails
-    let clouds: cloudDetails
-    let name :String
+    let wind: WindDetails
+    let clouds: CloudDetails
+    let name: String
     let timezone: Int
 }
-struct weatherDetails:Codable {
+
+struct CoordDetails: Codable {
+    let lon: Float
+    let lat: Float
+}
+
+struct WeatherDetails: Codable {
     let main: String
 }
-struct mainDetails: Codable {
+struct MainDetails: Codable {
     let temp: Float
     let feelsLike: Float
     let pressure: Int
     let humidity: Int
 }
 
-struct windDetails: Codable{
-    let speed : Float
+struct WindDetails: Codable {
+    let speed: Float
 }
 
-struct cloudDetails : Codable {
-    let all : Int
+struct CloudDetails: Codable {
+    let all: Int
 }

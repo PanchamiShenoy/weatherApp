@@ -8,117 +8,126 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    let cityList = [cityNames.bangalore.rawValue,cityNames.mangalore.rawValue,cityNames.delhi.rawValue,cityNames.mumbai.rawValue]
-    var viewModel = HomeViewModel()
-    var dispatchGroup = DispatchGroup()
     
-    @IBOutlet weak var seachBarTextField: UITextField!
-    @IBOutlet weak var locationCollectionView: UICollectionView!
-    @IBOutlet weak var searchBarView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak private var seachBarTextField: UITextField!
+    @IBOutlet weak private var locationCollectionView: UICollectionView!
+    @IBOutlet weak private var searchBarView: UIView!
+    
+    var viewModel = HomeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fillData()
+        activityIndicator.startAnimating()
         locationCollectionView.dataSource = self
         locationCollectionView.delegate = self
         searchBarViewSetUp()
     }
     
     func searchBarViewSetUp() {
-        searchBarView.layer.borderWidth = 0.5
+        //        let button = UIButton(type: .custom)
+        //        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        //        button.frame = CGRect(x: seachBarTextField.frame.size.width - 30, y: 5, width: 20, height: 20)
+        //        seachBarTextField.rightView = button
+        // seachBarTextField.rightViewMode = .always
+        searchBarView.layer.borderWidth = SearchBarBorderConstants.borderWidth.rawValue
         searchBarView.layer.borderColor = UIColor.white.cgColor
-        searchBarView.layer.cornerRadius = 30
+        searchBarView.layer.cornerRadius = SearchBarBorderConstants.borderRadius.rawValue
     }
     
-    func getIconImage(weather:String)->UIImage {
-        switch weather {
-        case weatherCondition.smoke.rawValue :
-            return UIImage(systemName: imageSystemName.smoke.rawValue)!
-        case weatherCondition.clouds.rawValue :
-            return UIImage(systemName: imageSystemName.cloud.rawValue)!
-        case weatherCondition.clear.rawValue :
-            return UIImage(systemName: imageSystemName.clear.rawValue)!
-        case weatherCondition.haze.rawValue :
-            return UIImage(systemName: imageSystemName.haze.rawValue)!
-        default:
-            return UIImage(systemName: imageSystemName.smoke.rawValue)!
-        }
-        
-    }
-    
-    func getBackgroundImage(city:String)->UIImage {
+    func getBackgroundImage(city: String)-> UIImage {
         switch city {
-        case cityNames.mumbai.rawValue :
-            return UIImage(named: imageAssetName.bombay.rawValue)!
-        case cityNames.mangalore.rawValue :
-            return UIImage(named: imageAssetName.mangalore.rawValue)!
-        case cityNames.bangalore.rawValue :
-            return UIImage(named: imageAssetName.bangalore.rawValue)!
-        case cityNames.delhi.rawValue :
-            return UIImage(named: imageAssetName.delhi.rawValue)!
+        case CityNames.mumbai.rawValue :
+            return UIImage(named: ImageAssetName.bombay.rawValue) ?? UIImage()
+        case CityNames.mangalore.rawValue :
+            return UIImage(named: ImageAssetName.mangalore.rawValue) ?? UIImage()
+        case CityNames.bangalore.rawValue :
+            return UIImage(named: ImageAssetName.bangalore.rawValue) ?? UIImage()
+        case CityNames.delhi.rawValue :
+            return UIImage(named: ImageAssetName.delhi.rawValue) ?? UIImage()
         default:
-            return UIImage(named: imageAssetName.delhi.rawValue)!
+            return UIImage()
         }
     }
-    func getTimeInHrMin(interval:Int)->String{
-//       let interval2 = interval/1000
-//        let timeInterval = Double(interval2)
-//        let myNSDate = Date(timeIntervalSince1970: timeInterval)
-        //print(myNSDate)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        formatter.amSymbol = "am"
-        formatter.pmSymbol = "pm"
-        formatter.timeZone = TimeZone(secondsFromGMT: interval)
-        let dateString = formatter.string(from: Date())
-        return dateString
-    }
-
+    
     @IBAction func onSearch(_ sender: Any) {
         guard let seachBarText = seachBarTextField.text else {
             return
         }
+        let vc = UIStoryboard.init(name: "Main", bundle:Bundle.main).instantiateViewController(withIdentifier: VcIdentifier.weatherDetailVC.rawValue) as? WeatherDetailViewController
+        vc?.city = seachBarText
+        guard let viewController = vc else {
+            return
+        }
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 //MARK: UICollection view delegate and data source methods
-extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource{
+extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.locationList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = locationCollectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier.locationCell.rawValue, for: indexPath) as! LocationCollectionViewCell
+        
+        guard  let cell = locationCollectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.locationCell.rawValue, for: indexPath) as? LocationCollectionViewCell else{
+            return UICollectionViewCell()
+        }
         cell.cityName.text = viewModel.locationList[indexPath.row].name
-        cell.cityTime.text = getTimeInHrMin(interval:viewModel.locationList[indexPath.row].timezone)
-        cell.cityTemp.text = "\(viewModel.locationList[indexPath.row].main.temp)"
-        cell.cityWeeather.text = "\(viewModel.locationList[indexPath.row].weather[0].main)"
-        cell.cityWeatherIcon.image = getIconImage(weather:"\(viewModel.locationList[indexPath.row].weather[0].main)")
+        cell.cityTime.text = getTimeInHrMin(timeZone:viewModel.locationList[indexPath.row].timezone)
+        cell.cityTemp.text = "\(fahrenheitToCelsius(temperature: viewModel.locationList[indexPath.row].main.temp))\(UnicodeConstants.degree.rawValue)"
+        cell.cityWeeather.text = viewModel.locationList[indexPath.row].weather[0].main
+        cell.cityWeatherIcon.image = getWeatherConditionIcon(weather:"\(viewModel.locationList[indexPath.row].weather[0].main)")
         cell.backgroundImage.image = getBackgroundImage(city: viewModel.locationList[indexPath.row].name)
+        cell.contentView.layer.cornerRadius = CollectionViewSizeConstants.cornerRadius.rawValue
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = (collectionView.frame.size.width-90)/2
-        return CGSize(width: size, height: 200)
+        let size = (collectionView.frame.size.width-CollectionViewSizeConstants.allignmentSpacing.rawValue )/2
+        return CGSize(width: size , height: CollectionViewSizeConstants.height.rawValue)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return CollectionViewSizeConstants.interItemSpacing.rawValue
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = UIStoryboard.init(name: "Main", bundle:Bundle.main).instantiateViewController(withIdentifier: VcIdentifier.weatherDetailVC.rawValue) as? WeatherDetailViewController
+        vc?.city = viewModel.locationList[indexPath.row].name
+        guard let viewController = vc else {
+            return
+        }
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 //MARK: Api call
 extension HomeViewController{
-   
+    
     func fillData() {
-        for city in cityList{
+        let dispatchGroup = DispatchGroup()
+        viewModel.cityList.forEach { city in
             dispatchGroup.enter()
-            viewModel.fetchData(city:city,completionHandler:{ [weak self]  in
-                self!.dispatchGroup.leave()
+            viewModel.fetchData(city:city,completionHandler:{ error in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                }
+                dispatchGroup.leave()
             })
         }
-        dispatchGroup.notify(queue: .main,execute: {
-            self.locationCollectionView.reloadData()
+        dispatchGroup.notify(queue: .main,execute: { [weak self] in
+            self?.locationCollectionView.reloadData()
+            self?.activityIndicator.stopAnimating()
         })
         
     }
-   
     
 }

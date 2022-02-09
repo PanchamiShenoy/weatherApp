@@ -14,6 +14,5 @@ class LocationCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cityTemp: UILabel!
     @IBOutlet weak var cityTime: UILabel!
     @IBOutlet weak var cityName: UILabel!
-    
     @IBOutlet weak var backgroundImage: UIImageView!
 }

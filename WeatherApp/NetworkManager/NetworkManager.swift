@@ -7,11 +7,43 @@
 
 import Foundation
 
-final class NetworkManager{
+class NetworkManager {
     static let shared = NetworkManager()
-    var newData:weatherResults?
-    func getData(city:String,completionHandler:@escaping (weatherResults)->Void ){
-        let url = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=feafb47733712f2cb5c98310fa3a92a6"
+    var newData: WeatherResults?
+    var decodedData: SecondWeatherResults?
+    
+    func getDataWithCityName(city: String, completionHandler: @escaping (WeatherResults?,Error?)-> Void ) {
+        let url = "\(Url.baseUrl.rawValue)/weather?q=\(city)\(Url.apiKey.rawValue)"
+        
+        guard let urlToSend = URL(string: url) else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: urlToSend) { data, response, error in
+            if let error = error {
+                completionHandler(nil,error)
+            }
+            
+            if let data = data {
+                do{
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    self.newData = try decoder.decode(WeatherResults.self, from: data)
+                }catch{
+                    print("failed",error.localizedDescription)
+                }
+            }
+            guard let decodedResults = self.newData else{
+                return
+            }
+            completionHandler(decodedResults,nil)
+        }
+        task.resume()
+        
+    }
+    
+    func getDetailsWithCoordinates(lat: Float,long: Float,completionHandler: @escaping (SecondWeatherResults)-> Void ) {
+        let url = "\(Url.baseUrl.rawValue)/onecall?lat=\(lat)&lon=\(long)\(Url.apiKey.rawValue)"
         guard let urlToSend = URL(string: url) else {
             return
         }
@@ -26,18 +58,17 @@ final class NetworkManager{
                 do{
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    self.newData = try decoder.decode(weatherResults.self, from: data)
+                    self.decodedData = try decoder.decode(SecondWeatherResults.self, from: data)
                 }catch{
                     print("failed",error.localizedDescription)
                 }
             }
-            guard let json = self.newData else{
+            guard let decodedResults = self.decodedData else{
                 return
             }
-            completionHandler(json)
+            completionHandler(decodedResults)
         }
         task.resume()
-       
+        
     }
-
 }

@@ -7,16 +7,24 @@
 
 import Foundation
 
-class HomeViewModel{
-    var locationList =  [weatherResults]()
-    func fetchData(city:String,completionHandler:@escaping ()->Void ){
+class HomeViewModel {
+    let cityList = [CityNames.bangalore.rawValue,CityNames.mangalore.rawValue,CityNames.delhi.rawValue,CityNames.mumbai.rawValue]
+    
+    var locationList =  [WeatherResults]()
+    func fetchData(city:String, completionHandler: @escaping (Error?)-> Void ) {
         
-        NetworkManager().getData(city:city,completionHandler:{ [weak self] (weatherResults) in
-            print(weatherResults.name)
-            self!.locationList.append(weatherResults)
-            completionHandler()
+        NetworkManager().getDataWithCityName(city:city,completionHandler:{ [weak self] (weatherResults,errorReceieved) in
+            if let errorReceieved = errorReceieved  {
+                completionHandler(errorReceieved)
+                return
+            }
+            guard let weatherResults = weatherResults else {
+                return
+            }
+            self?.locationList.append(weatherResults)
+            completionHandler(nil)
         })
         
     }
-
+    
 }
